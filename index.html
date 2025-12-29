@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sea2Home - Premium Fresh Seafood Delivery</title>
+
+<style>
+/*================ OCEAN PREMIUM DARK THEME ================*/
+body{
+  margin:0;
+  font-family:"Poppins", sans-serif;
+  background:#001a29;
+  color:#d9f6ff;
+}
+/*---------------- HEADER ----------------*/
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 55px;
+  background:#00121c;
+  color:#dff9ff;
+  border-bottom:1px solid rgba(0,200,255,0.2);
+  box-shadow:0 0 20px rgba(0,255,255,0.08);
+}
+header img{height:120px;}
+header .right{display:flex;align-items:center;gap:28px;font-size:17px;}
+#cartBtn{
+  background:#00e5ff;
+  color:#00242f;
+  padding:9px 16px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:600;
+  transition:.35s;
+}
+#cartBtn:hover{background:#00bcd4; transform:scale(1.05);}
+
+/*---------------- HERO ----------------*/
+.hero{
+  text-align:center;
+  padding:110px 20px;
+  background:linear-gradient(rgba(0,15,25,.6), rgba(0,20,30,.7)), url('banner.jpg') center/cover no-repeat;
+  color:#eaffff;
+}
+.hero h1{font-size:58px;font-weight:800;text-shadow:0 0 20px #00e5ff;}
+.hero p{font-size:21px;opacity:.95;margin-top:10px;}
+
+/*---------------- PRODUCTS GRID ----------------*/
+.products{
+  padding:50px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:35px;
+}
+.card{
+  background:rgba(0,30,45,0.75);
+  border-radius:14px;
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(0,255,255,0.1);
+  overflow:hidden;
+  box-shadow:0 0 30px rgba(0,255,255,0.07);
+  transition:.4s;
+}
+.card:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 0 45px rgba(0,255,255,0.18);
+}
+.card img{
+  width:100%;height:250px;object-fit:cover;
+  filter:saturate(1.2);
+}
+.card-content{padding:22px;}
+.card-content h3{margin:0;font-size:22px;font-weight:700;color:#99f6ff;}
+.price{margin-top:7px;font-size:19px;font-weight:700;color:#00e5ff;}
+
+/*------------- SELECT + QTY BOX -------------*/
+.weight{
+  width:100%;
+  padding:10px;
+  margin-top:15px;
+  background:#003545;
+  color:#c8faff;
+  border:1px solid #00d9ff;
+  border-radius:6px;
+}
+.qty-box{
+  margin-top:18px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+.qty-box button{
+  background:#00d9ff;
+  color:#00242f;
+  padding:7px 14px;
+  border:none;
+  font-size:18px;
+  cursor:pointer;
+  border-radius:5px;
+  transition:.3s;
+}
+.qty-box button:hover{
+  background:#00aac5;
+}
+
+/*------------- BUTTONS -------------*/
+.buttons{display:flex;gap:12px;margin-top:12px;}
+.add,.order{
+  flex:1;padding:11px;font-size:16px;font-weight:600;
+  border:none;border-radius:6px;cursor:pointer;transition:.3s;
+}
+.add{background:#00d9ff;color:#003241;}
+.add:hover{background:#00bcd4;}
+.order{background:#00ff9d;color:#00341f;}
+.order:hover{background:#00d87f;}
+
+/*---------------- CART ----------------*/
+#cartPopup{
+  position:fixed;top:0;right:0;
+  width:380px;height:100vh;
+  background:#00131c;
+  color:#c9f8ff;
+  border-left:1px solid rgba(0,255,255,0.2);
+  transform:translateX(100%);
+  transition:.35s;
+  padding:25px;overflow-y:auto;z-index:999;
+  box-shadow:0 0 25px rgba(0,255,255,.2);
+}
+#cartPopup.active{transform:translateX(0);}
+#closeCart{
+  position:absolute;
+  top:15px;
+  right:20px;
+  font-size:22px;
+  cursor:pointer;
+  color:#00e5ff;
+  font-weight:bold;
+}
+.cart-item{
+  padding:12px 0;
+  border-bottom:1px solid rgba(255,255,255,0.15);
+  font-size:16px;
+}
+.checkout{
+  margin-top:25px;padding:12px;
+  background:#00ff9d;color:#00341f;
+  font-size:18px;text-align:center;
+  font-weight:700;border-radius:6px;cursor:pointer;
+  transition:.3s;
+}
+.checkout:hover{
+  background:#00d87f;
+  transform:scale(1.04);
+}
+
+/*---------------- FOOTER ----------------*/
+footer{
+  background:#000f17;
+  color:#d1f8ff;
+  padding:60px 45px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:40px;
+  border-top:1px solid rgba(0,255,255,0.2);
+}
+footer h3{margin-bottom:15px;font-size:20px;color:#00e5ff;}
+footer ul{list-style:none;padding:0;}
+footer ul li{margin-bottom:8px;opacity:.85;cursor:pointer;}
+footer ul li:hover{color:#00d0ff;opacity:1;}
+.social a{
+  margin-right:12px;
+  font-size:20px;
+  font-weight:bold;
+  color:#00e6ff;
+  transition:.3s;
+}
+.social a:hover{color:#00ffa3;}
+footer .copy{
+  grid-column:1/-1;
+  text-align:center;
+  margin-top:25px;
+  opacity:.7;
+  font-size:15px;
+  padding-top:10px;
+  border-top:1px solid rgba(255,255,255,0.15);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="the logo.png" alt="Sea2Home Logo">
+  <div class="right">
+    <div>Call: 8374379311</div>
+    <div id="cartBtn" onclick="toggleCart()">Cart (<span id="count">0</span>)</div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Sea2Home</h1>
+  <p>Your Family Deserves the Ocean’s Best</p>
+</section>
+
+<section class="products">
+
+<div class="card">
+  <img src="fish-swimming-underwater.jpg">
+  <div class="card-content">
+    <h3>Fresh Fish</h3>
+    <div class="price">₹800 / 1kg</div>
+    <select class="weight" onchange="updatePrice(this,800)">
+      <option value="250">250g</option>
+      <option value="500">500g</option>
+      <option value="1000" selected>1kg</option>
+    </select>
+    <div class="qty-box"><button onclick="changeQty(this,-1)">−</button><span>1</span><button onclick="changeQty(this,1)">+</button></div>
+    <div class="buttons"><button class="add" onclick="addToCart(this,'Fresh Fish',800)">Add to Cart</button><button class="order" onclick="orderNow(this,'Fresh Fish',800)">Order Now</button></div>
+  </div>
+</div>
+
+<div class="card">
+  <img src="prawns.jpg">
+  <div class="card-content">
+    <h3>Tiger Prawns</h3>
+    <div class="price">₹800 / 1kg</div>
+    <select class="weight" onchange="updatePrice(this,800)">
+      <option value="250">250g</option>
+      <option value="500">500g</option>
+      <option value="1000" selected>1kg</option>
+    </select>
+    <div class="qty-box"><button onclick="changeQty(this,-1)">−</button><span>1</span><button onclick="changeQty(this,1)">+</button></div>
+    <div class="buttons"><button class="add" onclick="addToCart(this,'Tiger Prawns',800)">Add to Cart</button><button class="order" onclick="orderNow(this,'Tiger Prawns',800)">Order Now</button></div>
+  </div>
+</div>
+
+<div class="card">
+  <img src="Crabs.jpg">
+  <div class="card-content">
+    <h3>Crab</h3>
+    <div class="price">₹900 / 1kg</div>
+    <select class="weight" onchange="updatePrice(this,900)">
+      <option value="250">250g</option>
+      <option value="500">500g</option>
+      <option value="1000" selected>1kg</option>
+    </select>
+    <div class="qty-box"><button onclick="changeQty(this,-1)">−</button><span>1</span><button onclick="changeQty(this,1)">+</button></div>
+    <div class="buttons"><button class="add" onclick="addToCart(this,'Crab',900)">Add to Cart</button><button class="order" onclick="orderNow(this,'Crab',900)">Order Now</button></div>
+  </div>
+</div>
+
+<div class="card">
+  <img src="squid.jpg">
+  <div class="card-content">
+    <h3>Squid</h3>
+    <div class="price">₹750 / 1kg</div>
+    <select class="weight" onchange="updatePrice(this,750)">
+      <option value="250">250g</option>
+      <option value="500">500g</option>
+      <option value="1000" selected>1kg</option>
+    </select>
+    <div class="qty-box"><button onclick="changeQty(this,-1)">−</button><span>1</span><button onclick="changeQty(this,1)">+</button></div>
+    <div class="buttons"><button class="add" onclick="addToCart(this,'Squid',750)">Add to Cart</button><button class="order" onclick="orderNow(this,'Squid',750)">Order Now</button></div>
+  </div>
+</div>
+
+</section>
+
+<div id="cartPopup">
+  <h2>Your Cart</h2>
+  <span id="closeCart" onclick="closeCart()">×</span>
+  <div id="cartItems"></div>
+  <div class="checkout" onclick="checkout()">Checkout via WhatsApp</div>
+</div>
+
+<footer>
+  <div>
+    <h3>Sea2Home</h3>
+    <p>Delivering premium fresh seafood directly from the coast to your kitchen.</p>
+  </div>
+  <div>
+    <h3>Quick Links</h3>
+    <ul>
+      <li>Home</li>
+      <li>Products</li>
+      <li>About Us</li>
+      <li>Contact</li>
+    </ul>
+  </div>
+  <div>
+    <h3>Contact</h3>
+    <p>Call: 8374379311</p>
+    <!-- <p>Email: support@sea2home.com</p> -->
+    <p>Location: Visakhapatnam, India</p>
+  </div>
+  <div>
+    <h3>Follow Us</h3>
+    <div class="social">
+      <!-- <a href="#">FB</a>
+      <a href="#">IG</a>
+      <a href="#">WA</a> -->
+    </div>
+  </div>
+  <div class="copy">© 2025 Sea2Home. All Rights Reserved.</div>
+</footer>
+
+<script>
+let cart=[]; let total=0; 
+let cartLocked = false;
+
+function updatePrice(select,basePrice){
+  const w=select.value;
+  const card=select.closest(".card-content");
+  const prizeBox=card.querySelector(".price");
+  const price=basePrice*(w/1000);
+  prizeBox.innerText=`₹${price} / ${w}g`;
+}
+
+function changeQty(btn,val){
+  const span=btn.parentElement.querySelector("span");
+  let qty=parseInt(span.innerText)+val;
+  if(qty<1) qty=1;
+  span.innerText=qty;
+}
+
+function addToCart(btn,name,basePrice){
+  if(btn.classList.contains("added")) return;
+  const card=btn.closest(".card-content");
+  const w=card.querySelector(".weight").value;
+  const qty=parseInt(card.querySelector(".qty-box span").innerText);
+  const price=basePrice*(w/1000);
+  cart.push({name,weight:w,qty,price});
+  total+=price*qty;
+  btn.innerText="Added";
+  btn.style.background="#005f87";
+  btn.classList.add("added");
+  document.getElementById("count").innerText=cart.length;
+  renderCart();
+}
+
+function renderCart(){
+  let html="";
+  cart.forEach(i=>{
+    html+=`<div class="cart-item">${i.name} (${i.weight}g) × ${i.qty} = ₹${i.price*i.qty}</div>`;
+  });
+  html+=`<hr><b>Total: ₹${total}</b>`;
+  document.getElementById("cartItems").innerHTML=html;
+}
+
+function toggleCart(){
+  if(!cartLocked){
+    document.getElementById("cartPopup").classList.toggle("active");
+  }
+}
+function closeCart(){
+  if(!cartLocked){
+    document.getElementById("cartPopup").classList.remove("active");
+  }
+}
+
+function renderCart(){
+  let html="";
+  cart.forEach((i,index)=>{
+    html+=`<div class="cart-item">${i.name} (${i.weight}g) × ${i.qty} = ₹${i.price*i.qty} 
+           <span style="cursor:pointer;color:red;margin-left:8px;" onclick="removeItem(${index})">×</span></div>`;
+  });
+  html+=`<hr><b>Total: ₹${total}</b>`;
+  document.getElementById("cartItems").innerHTML=html;
+}
+
+function removeItem(index){
+  const item = cart[index];
+  total -= item.price * item.qty;
+  cart.splice(index,1);
+
+  // Reset the Add button for this product
+  document.querySelectorAll(".card").forEach(card => {
+    const name = card.querySelector("h3").innerText;
+    if(name === item.name){
+      const addBtn = card.querySelector(".add");
+      addBtn.innerText = "Add to Cart";
+      addBtn.style.background = "#00d9ff";
+      addBtn.classList.remove("added");
+    }
+
+
+
+
+  });
+
+
+
+
+
+
+
+
+
+    document.getElementById("count").innerText = cart.length;
+  renderCart();
+}
+
+function orderNow(btn,name,basePrice){
+  const card=btn.closest(".card-content");
+  const w=card.querySelector(".weight").value;
+  const qty=parseInt(card.querySelector(".qty-box span").innerText);
+  const price=basePrice*(w/1000);
+  window.open(`https://wa.me/918374379311?text=I want to order ${name}%20-%20${w}g%20×%20${qty}%20=%20₹${price*qty}`,"_blank");
+}
+
+function checkout(){
+  if(cart.length===0) return alert("Cart is empty");
+  let msg="New Order:%0A";
+  cart.forEach(i=>msg+=`${i.name} - ${i.weight}g × ${i.qty} = ₹${i.price*i.qty}%0A`);
+  msg+=`%0ATotal = ₹${total}`;
+  cartLocked = true;
+  document.getElementById("closeCart").style.display="none";
+  document.getElementById("cartBtn").style.pointerEvents="none";
+  // Disable all product buttons
+  document.querySelectorAll(".add, .order").forEach(btn => {
+    btn.disabled = true;
+    btn.style.cursor = "not-allowed";
+    btn.style.opacity = "0.6";
+  });
+  window.open(`https://wa.me/918374379311?text=${msg}`,"_blank");
+}
+</script>
+
+</body>
+</html>
